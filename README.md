@@ -1,56 +1,176 @@
-# Welcome to your Expo app 👋
+# 📝 Expo Notes App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern and responsive Notes Application built with **Expo**, **React Native**, and **TypeScript**. This app allows users to create, search, and manage notes with support for **Dark Mode**, **Light Mode**, and a native **Date Picker**.
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+- 📝 Create New Notes
+- 🔍 Search Notes Instantly
+- 📅 Native Date Picker Integration
+- 🌙 Dark Mode Support
+- ☀️ Light Mode Support
+- 📱 Responsive Grid Layout
+- ⚡ Built with TypeScript
+- 🎨 Clean and Modern UI
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## 📸 Screenshots (Inside Screenshot Folder)
 
-   ```bash
-   npx expo start
-   ```
+### Home Screen
 
-In the output, you'll find options to open the app in a
+### Add Note Modal
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Dark Mode
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Light Mode
 
-## Get a fresh project
+### Demo Video
 
-When you're ready, run:
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- Node.js
+- npm or yarn
+- Expo CLI
+- Android Studio (Android Emulator)
+- Xcode (iOS Simulator - macOS only)
+
+---
+
+## 📥 Clone the Repository
 
 ```bash
-npm run reset-project
+git clone https://github.com/lumesh2911-1/Notes_app_expo.git
+
+cd Notes_app_expo
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-### Other setup steps
+## 📦 Install Dependencies
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Using npm:
 
-## Learn more
+```bash
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Using yarn:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+yarn install
+```
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## ▶️ Run the Project
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Start the development server:
+
+```bash
+npx expo start
+```
+
+Then choose one of the following:
+
+- Press `a` to open Android Emulator
+- Press `i` to open iOS Simulator
+- Scan the QR code using Expo Go
+
+---
+
+## 📚 Dependencies
+
+```bash
+expo
+react-native
+react-native-safe-area-context
+@expo/vector-icons
+@react-native-community/datetimepicker
+```
+
+Install DateTimePicker:
+
+```bash
+npx expo install @react-native-community/datetimepicker
+```
+
+---
+
+## 📁 Project Structure
+
+```text
+app/
+├── index.tsx
+
+components/
+├── AddNoteModal.tsx
+├── Header.tsx
+├── NoteCard.tsx
+├── SearchBar.tsx
+
+constants/
+├── dummyNotes.ts
+
+assets/
+├── images/
+├── fonts/
+```
+
+---
+
+## 🔄 App Flow
+
+1. User opens the application.
+2. Existing notes are displayed in a grid.
+3. User taps the ➕ button.
+4. Add Note Modal opens.
+5. User enters:
+   - Title
+   - Description
+   - Date
+
+6. User taps Save.
+7. New note appears instantly in the list.
+8. Notes can be searched using the search bar.
+
+---
+
+## 🛠️ Technologies Used
+
+- Expo
+- React Native
+- TypeScript
+- React Hooks
+- Expo Vector Icons
+- React Native Safe Area Context
+- React Native DateTimePicker
+
+---
+
+## 👨‍💻 Author
+
+### Lumesh Kumar Sahu
+
+Software Engineer | React Native Developer
+
+---
+
+## 🌐 Connect With Me
+
+- GitHub: https://github.com/lumesh2911-1
+- LinkedIn: https://www.linkedin.com/in/lumesh2911/
+- Medium: https://medium.com/@lumesh2911
+- Portfolio: https://lumesh.vercel.app/
+
+---
+
+## 📄 License
+
+This project is open-source and available for learning, personal use, and portfolio projects.
