@@ -2,6 +2,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import {
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -11,58 +12,65 @@ import {
 
 type Props = {
   visible: boolean;
-  onClose: () => void;
   isDark: boolean;
-  onSave: (note: {
-    id: string;
-    title: string;
-    description: string;
-    date: string;
-    color: string;
-  }) => void;
+  onClose: () => void;
+  onSave: (note: { title: string; description: string; date: string }) => void;
 };
 
 export default function AddNoteModal({
   visible,
-  onClose,
   isDark,
+  onClose,
   onSave,
 }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const formatDate = (selectedDate: Date) => {
+    return selectedDate.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   const handleSave = () => {
     if (!title.trim()) return;
 
     onSave({
-      id: Date.now().toString(),
       title,
       description,
-      date: date.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }),
-      color: "#CFEAF2",
+      date: formatDate(date),
     });
 
     setTitle("");
     setDescription("");
     setDate(new Date());
+  };
 
+  const handleCancel = () => {
+    setTitle("");
+    setDescription("");
+    setDate(new Date());
     onClose();
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      statusBarTranslucent
+    >
       <View style={styles.overlay}>
         <View
           style={[
-            styles.container,
+            styles.modal,
             {
-              backgroundColor: isDark ? "#1A1A1A" : "#FFF",
+              backgroundColor: isDark ? "#111827" : "#FFFFFF",
             },
           ]}
         >
@@ -70,7 +78,7 @@ export default function AddNoteModal({
             style={[
               styles.heading,
               {
-                color: isDark ? "#FFF" : "#111",
+                color: isDark ? "#FFF" : "#111827",
               },
             ]}
           >
@@ -79,51 +87,80 @@ export default function AddNoteModal({
 
           <TextInput
             placeholder="Title"
+            placeholderTextColor="#9CA3AF"
             value={title}
             onChangeText={setTitle}
-            placeholderTextColor="#9CA3AF"
             style={[
               styles.input,
               {
-                color: isDark ? "#FFF" : "#111",
-                backgroundColor: isDark ? "#111" : "#F3F4F6",
+                backgroundColor: isDark ? "#1F2937" : "#F3F4F6",
+                color: isDark ? "#FFF" : "#111827",
               },
             ]}
           />
 
           <TextInput
             placeholder="Description"
+            placeholderTextColor="#9CA3AF"
             value={description}
             onChangeText={setDescription}
             multiline
-            placeholderTextColor="#9CA3AF"
             style={[
-              styles.description,
+              styles.input,
+              styles.descriptionInput,
               {
-                color: isDark ? "#FFF" : "#111",
-                backgroundColor: isDark ? "#111" : "#F3F4F6",
+                backgroundColor: isDark ? "#1F2937" : "#F3F4F6",
+                color: isDark ? "#FFF" : "#111827",
               },
             ]}
           />
 
-          <DateTimePicker
-            value={date}
-            mode="date"
-            display="default"
-            onChange={(_, selectedDate) => {
-              if (selectedDate) {
-                setDate(selectedDate);
-              }
-            }}
-          />
+          <Pressable
+            onPress={() => setShowDatePicker(true)}
+            style={[
+              styles.dateButton,
+              {
+                backgroundColor: isDark ? "#1F2937" : "#F3F4F6",
+              },
+            ]}
+          >
+            <Text
+              style={{
+                color: isDark ? "#FFF" : "#111827",
+              }}
+            >
+              {formatDate(date)}
+            </Text>
+          </Pressable>
 
-          <View style={styles.actions}>
-            <Pressable style={styles.cancelButton} onPress={onClose}>
-              <Text style={styles.buttonText}>Cancel</Text>
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              onChange={(event, selectedDate) => {
+                setShowDatePicker(false);
+
+                if (selectedDate) {
+                  setDate(selectedDate);
+                }
+              }}
+            />
+          )}
+
+          <View style={styles.buttonRow}>
+            <Pressable
+              style={[styles.button, styles.cancelButton]}
+              onPress={handleCancel}
+            >
+              <Text style={styles.cancelText}>Cancel</Text>
             </Pressable>
 
-            <Pressable style={styles.saveButton} onPress={handleSave}>
-              <Text style={styles.buttonText}>Save</Text>
+            <Pressable
+              style={[styles.button, styles.saveButton]}
+              onPress={handleSave}
+            >
+              <Text style={styles.saveText}>Save</Text>
             </Pressable>
           </View>
         </View>
@@ -135,65 +172,68 @@ export default function AddNoteModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    justifyContent: "flex-end",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.45)",
+    justifyContent: "center",
+    paddingHorizontal: 20,
   },
 
-  container: {
-    padding: 24,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+  modal: {
+    borderRadius: 24,
+    padding: 20,
   },
 
   heading: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "700",
     marginBottom: 20,
   },
 
   input: {
-    height: 55,
     borderRadius: 16,
     paddingHorizontal: 16,
-    marginBottom: 16,
+    paddingVertical: 14,
+    fontSize: 16,
+    marginBottom: 15,
   },
 
-  description: {
-    height: 120,
-    borderRadius: 16,
-    padding: 16,
+  descriptionInput: {
+    minHeight: 120,
     textAlignVertical: "top",
+  },
+
+  dateButton: {
+    padding: 16,
+    borderRadius: 16,
     marginBottom: 20,
   },
 
-  actions: {
+  buttonRow: {
     flexDirection: "row",
-    marginTop: 20,
+    justifyContent: "flex-end",
+  },
+
+  button: {
+    paddingHorizontal: 22,
+    paddingVertical: 12,
+    borderRadius: 14,
   },
 
   cancelButton: {
-    flex: 1,
-    height: 50,
-    backgroundColor: "#EF4444",
-    borderRadius: 14,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 8,
+    backgroundColor: "#E5E7EB",
+    marginRight: 10,
   },
 
   saveButton: {
-    flex: 1,
-    height: 50,
-    backgroundColor: "#6366F1",
-    borderRadius: 14,
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: 8,
+    backgroundColor: "green",
   },
 
-  buttonText: {
+  cancelText: {
+    color: "#111827",
+    fontWeight: "600",
+  },
+
+  saveText: {
     color: "#FFF",
     fontWeight: "600",
-    fontSize: 16,
   },
 });

@@ -42,7 +42,7 @@ export default function SearchBar({
       </View>
 
       <Pressable
-        onAddPress={() => setModalVisible(true)}
+        onPress={onAddPress}
         style={[
           styles.addButton,
           {
@@ -50,7 +50,7 @@ export default function SearchBar({
           },
         ]}
       >
-        <Ionicons name="add" size={28} color={isDark ? "#FFF" : "#111"} />
+        <Ionicons name="add" size={28} color={isDark ? "#FFF" : "#9CA3AF"} />
       </Pressable>
     </View>
   );
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     width: 55,
     height: 55,
     borderRadius: 18,
-    backgroundColor: "#0274DF",
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 12,

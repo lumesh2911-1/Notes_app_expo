@@ -7,8 +7,8 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-import AddNoteModal from "@/components/AddNoteModal";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AddNoteModal from "../components/AddNoteModal";
 import Header from "../components/Header";
 import NoteCard from "../components/NoteCard";
 import SearchBar from "../components/SearchBar";
@@ -18,22 +18,17 @@ export default function NotesList() {
   const systemTheme = useColorScheme();
 
   const [isDark, setIsDark] = useState(systemTheme === "dark");
-
   const [search, setSearch] = useState("");
+  const [notes, setNotes] = useState(dummyNotes);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const { width } = useWindowDimensions();
 
   const filteredNotes = useMemo(() => {
-    return dummyNotes.filter((item) =>
+    return notes.filter((item) =>
       item.title.toLowerCase().includes(search.toLowerCase()),
     );
-  }, [search]);
-
-  // Modal Add Note
-
-  const [notes, setNotes] = useState(dummyNotes);
-
-  const [modalVisible, setModalVisible] = useState(false);
+  }, [search, notes]);
 
   return (
     <SafeAreaView
@@ -45,6 +40,7 @@ export default function NotesList() {
       ]}
     >
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
+
       <Header isDark={isDark} onToggleTheme={() => setIsDark(!isDark)} />
 
       <SearchBar
@@ -74,12 +70,24 @@ export default function NotesList() {
           />
         )}
       />
+
       <AddNoteModal
         visible={modalVisible}
         isDark={isDark}
         onClose={() => setModalVisible(false)}
         onSave={(note) => {
-          setNotes((prev) => [note, ...prev]);
+          setNotes((prev) => [
+            {
+              id: Date.now().toString(),
+              title: note.title,
+              description: note.description,
+              date: note.date,
+              color: "#DDEBFF",
+            },
+            ...prev,
+          ]);
+
+          setModalVisible(false);
         }}
       />
     </SafeAreaView>
